@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS questions(
   question_date TEXT,
   asker_name TEXT,
   email TEXT,
-  question_helpfulness INT,
-  reported INT
+  question_helpfulness INT DEFAULT 0 NOT NULL,
+  reported INT DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS answers(
@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS answers(
   answer_date TEXT,
   answerer_name TEXT,
   answerer_email TEXT,
-  question_helpfulness INT,
-  reported INT
+  question_helpfulness INT DEFAULT 0 NOT NULL,
+  reported INT DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS photos(
@@ -53,7 +53,11 @@ CSV HEADER;
 
 CREATE INDEX products_index ON questions (product_id ASC);
 CREATE INDEX reviews_index ON answers (question_id ASC);
-CREATE INDEX photos_index ON photos (answer_id);
+CREATE INDEX photos_index ON photos (answer_id ASC);
+CREATE INDEX reviewReported ON questions (reported)
+  WHERE (reported = 0);
+CREATE INDEX answerReported ON answers (reported)
+  WHERE (reported = 0);
 
 SELECT setval('"questions_question_id_seq"', (SELECT MAX(question_id) FROM questions));
 SELECT setval('"answers_answer_id_seq"', (SELECT MAX(answer_id) FROM answers));
