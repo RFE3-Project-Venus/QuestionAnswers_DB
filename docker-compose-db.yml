@@ -13,13 +13,15 @@ services:
       - '5432:5432'
     healthcheck:
       test: "exit 0"
+  server:
+
 volumes:
   qa_volume:
     driver: local
     driver_opts:
         o: bind
         type: none
-        device: /Users/ag/Desktop/CSV
+        device: /home/ubuntu/csv_data
 networks:
   default:
     name: sdc
